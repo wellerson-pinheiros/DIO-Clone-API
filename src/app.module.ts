@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioModule } from './usuario/usuario.module';
+import { PostagenModule } from './postagem/Postagen.module';
+import { PostagensEntity } from './postagem/entities/postagem.entity';
 
 
 @Module({
@@ -19,10 +21,11 @@ import { UsuarioModule } from './usuario/usuario.module';
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [Usuario],
+    entities: [Usuario, PostagensEntity],
     synchronize: true,
 }),
 UsuarioModule,
+PostagenModule
   ],
   controllers: [],
   providers: [],

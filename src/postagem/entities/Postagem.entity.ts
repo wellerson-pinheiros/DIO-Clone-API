@@ -9,9 +9,11 @@ export class PostagensEntity {
     @Column({length: 300, nullable: false})
     titulo: string;
     @Column({type: 'text', nullable: true})
-    descrição: string;
+    descricao: string;
     @Column({length: 5000, nullable: true})
-    foto: string;  
+    fotoPostagem: string;  
+    @Column({length: 5000, nullable: true})
+    videoPostagem: string;
     @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     dataPostagem: Date;
 }
