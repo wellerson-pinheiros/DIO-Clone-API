@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PostagensEntity } from '../../postagem/entities/postagem.entity';
+import { FeedbackEntity } from '../../feedback/entities/feedback.entity';
 
 
 @Entity({name:'tb_usuarios'})
@@ -23,4 +24,7 @@ export class Usuario {
 
   @OneToMany(() => PostagensEntity, (postagem) => postagem.usuario) 
   postagens: PostagensEntity[];
+
+  @OneToMany(() => FeedbackEntity, (feedback) => feedback.usuario)
+  feedbacks: FeedbackEntity[];
 }

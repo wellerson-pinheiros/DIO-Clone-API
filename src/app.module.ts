@@ -5,6 +5,8 @@ import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioModule } from './usuario/usuario.module';
 import { PostagenModule } from './postagem/Postagen.module';
 import { PostagensEntity } from './postagem/entities/postagem.entity';
+import { FeedbackModule } from './feedback/feedback.module';
+import { FeedbackEntity } from './feedback/entities/feedback.entity';
 
 
 @Module({
@@ -21,11 +23,12 @@ import { PostagensEntity } from './postagem/entities/postagem.entity';
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [Usuario, PostagensEntity],
+    entities: [Usuario, PostagensEntity,FeedbackEntity],
     synchronize: true,
 }),
 UsuarioModule,
-PostagenModule
+PostagenModule,
+FeedbackModule
   ],
   controllers: [],
   providers: [],

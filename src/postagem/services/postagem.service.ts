@@ -13,14 +13,14 @@ export class PostagemService {
 
     async findAll(): Promise<PostagensEntity[]> {
         return await this.postagemRepository.find({
-            relations: { usuario: true },
+            relations: { usuario: true, feedbacks: true },
         });
     }
 
     async  findById(id: number): Promise<PostagensEntity> {
         const buscaPostagemPorID = await this.postagemRepository.findOne({
             where: {id},
-            relations: { usuario: true },
+            relations: { usuario: true,feedbacks: true },
         });
         if(!buscaPostagemPorID){
             throw new HttpException('Postagem não encontrada', HttpStatus.NOT_FOUND);

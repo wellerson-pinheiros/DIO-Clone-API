@@ -1,6 +1,7 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Usuario } from "../../usuario/entities/usuario.entity";
+import { FeedbackEntity } from "../../feedback/entities/feedback.entity";
 
 @Entity({name: 'tb_postagens'})
 export class PostagensEntity {
@@ -22,4 +23,7 @@ export class PostagensEntity {
     onDelete: 'CASCADE', // Se o usuário for deletado, suas postagens também são
   })
   usuario: Usuario;
+
+    @OneToMany(() => FeedbackEntity, (feedback) => feedback.postagem)
+    feedbacks: FeedbackEntity[];
 }
