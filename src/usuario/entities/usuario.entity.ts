@@ -1,5 +1,7 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { PostagensEntity } from '../../postagem/entities/postagem.entity';
+
 
 @Entity({name:'tb_usuarios'})
 export class Usuario {
@@ -17,4 +19,8 @@ export class Usuario {
   senha: string;
   @Column({ length: 5000, nullable: true })
   foto: string;
+
+
+  @OneToMany(() => PostagensEntity, (postagem) => postagem.usuario) 
+  postagens: PostagensEntity[];
 }

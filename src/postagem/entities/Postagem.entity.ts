@@ -1,5 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Usuario } from "../../usuario/entities/usuario.entity";
 
 @Entity({name: 'tb_postagens'})
 export class PostagensEntity {
@@ -16,4 +17,9 @@ export class PostagensEntity {
     videoPostagem: string;
     @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     dataPostagem: Date;
+
+    @ManyToOne(() => Usuario, (usuario) => usuario.postagens, {
+    onDelete: 'CASCADE', // Se o usuário for deletado, suas postagens também são
+  })
+  usuario: Usuario;
 }

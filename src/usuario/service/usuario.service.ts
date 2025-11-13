@@ -11,12 +11,17 @@ export class UsuarioService {
   ) {}
 
   async findAll(): Promise<Usuario[]> {
-    return await this.usuarioRepository.find();
+    return await this.usuarioRepository.find(
+      {
+        relations: { postagens: true },
+      }
+    );
   }
 
   async findById(id: number): Promise<Usuario> {
     const buscaUsuarioPorID = await this.usuarioRepository.findOne({
       where: { id },
+      relations: { postagens: true },
     });
     if (!buscaUsuarioPorID)
       throw new HttpException('Usuario não encontrada', HttpStatus.NOT_FOUND);
@@ -27,6 +32,7 @@ export class UsuarioService {
   async findByEmail(email: string): Promise<Usuario> {
     const buscaUsuarioPorEmail = await this.usuarioRepository.findOne({
       where: { email: email.toLowerCase() },
+      relations: { postagens: true },
     });
 
     if (!buscaUsuarioPorEmail) {
