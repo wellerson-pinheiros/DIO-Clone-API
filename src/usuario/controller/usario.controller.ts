@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { Usuario } from "../entities/usuario.entity";
 import { UsuarioService } from "../service/usuario.service";
 import { DeleteResult } from "typeorm";
@@ -35,6 +35,12 @@ export class UsuarioController {
     @HttpCode(HttpStatus.CREATED)
     createUsuario(@Body() usuario: Usuario): Promise<Usuario> {
         return this.usuarioService.createUsuario(usuario);
+    }
+
+    @Put()
+    @HttpCode(HttpStatus.OK)
+    updateUsuario(@Body() usuario: Usuario): Promise<Usuario> {
+        return this.usuarioService.updateUsuario(usuario);
     }
     @Delete("/:id")
     @HttpCode(HttpStatus.NO_CONTENT)
