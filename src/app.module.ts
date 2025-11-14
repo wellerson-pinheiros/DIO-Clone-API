@@ -7,6 +7,7 @@ import { PostagenModule } from './postagem/Postagen.module';
 import { PostagensEntity } from './postagem/entities/postagem.entity';
 import { FeedbackModule } from './feedback/feedback.module';
 import { FeedbackEntity } from './feedback/entities/feedback.entity';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -28,7 +29,8 @@ import { FeedbackEntity } from './feedback/entities/feedback.entity';
 }),
 UsuarioModule,
 PostagenModule,
-FeedbackModule
+FeedbackModule,
+AuthModule
   ],
   controllers: [],
   providers: [],
