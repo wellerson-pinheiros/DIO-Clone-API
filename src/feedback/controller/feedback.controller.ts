@@ -1,9 +1,11 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, HttpStatus, Post, Put, UseGuards } from "@nestjs/common";
 
 import { FeedbackService } from "../services/feedback.service";
 import { DeleteResult } from "typeorm";
 import { FeedbackEntity } from "../entities/feedback.entity";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Controller('feedback')
 export class FeedbackController {
     constructor (private readonly feedbackService: FeedbackService) 

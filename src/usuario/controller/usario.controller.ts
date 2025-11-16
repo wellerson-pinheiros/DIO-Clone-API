@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { Usuario } from "../entities/usuario.entity";
 import { UsuarioService } from "../service/usuario.service";
 import { DeleteResult } from "typeorm";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
 
 
@@ -10,19 +11,20 @@ import { DeleteResult } from "typeorm";
 export class UsuarioController {
     constructor(private readonly usuarioService : UsuarioService){}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @HttpCode(HttpStatus.OK)
     findAll():Promise<Usuario[]> {
         return this.usuarioService.findAll();
     }
 
-
-   @Get("/email/:email")
-   @HttpCode(HttpStatus.OK)
+    @UseGuards(JwtAuthGuard)
+    @Get("/email/:email")
+    @HttpCode(HttpStatus.OK)
     findByEmail(@Param('email') email: string):Promise<Usuario> { 
         return this.usuarioService.findByEmail(email);
     }
-
+    @UseGuards(JwtAuthGuard)
     @Get("/:id")
     @HttpCode(HttpStatus.OK)
     findById(@Param('id', ParseIntPipe) id: number):Promise<Usuario> {
@@ -35,11 +37,13 @@ export class UsuarioController {
         return this.usuarioService.createUsuario(usuario);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put()
     @HttpCode(HttpStatus.OK)
     updateUsuario(@Body() usuario: Usuario): Promise<Usuario> {
         return this.usuarioService.update(usuario);
     }
+    @UseGuards(JwtAuthGuard)
     @Delete("/:id")
     @HttpCode(HttpStatus.NO_CONTENT)
     deleteUsuario(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {

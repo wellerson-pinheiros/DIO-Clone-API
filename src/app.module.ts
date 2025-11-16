@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 
     ConfigModule.forRoot({
       isGlobal: true, // deixa o .env disponível em toda a aplicação
+      envFilePath: '.env'
     }),
 
     TypeOrmModule.forRoot({
