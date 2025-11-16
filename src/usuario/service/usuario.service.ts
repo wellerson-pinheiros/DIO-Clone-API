@@ -12,6 +12,8 @@ export class UsuarioService {
     private bcrypt: Bcrypt,
   ) {}
 
+  
+
   async findAll(): Promise<Usuario[]> {
     return await this.usuarioRepository.find({
       relations: { postagens: true },
@@ -20,7 +22,9 @@ export class UsuarioService {
 
   async findById(id: number): Promise<Usuario> {
     const buscaUsuarioPorID = await this.usuarioRepository.findOne({
-      where: { id },
+      where: { 
+        id
+       },
       relations: { postagens: true },
     });
     if (!buscaUsuarioPorID)
@@ -29,40 +33,50 @@ export class UsuarioService {
     return buscaUsuarioPorID;
   }
 
-  async findByEmail(email: string): Promise<Usuario> {
-    const buscaUsuarioPorEmail = await this.usuarioRepository.findOne({
-      where: { email: email.toLowerCase() },
-      relations: { postagens: true },
-    });
+  async findByUsuario(usuario: string): Promise<Usuario | null> {
+ return await this.usuarioRepository.findOne({
+    where: {
+       usuario : usuario
+      },
+  });
+ 
+}
 
-    if (!buscaUsuarioPorEmail) {
-      throw new HttpException('Usuario não encontrada', HttpStatus.NOT_FOUND);
+async findByEmail(email: string): Promise<Usuario> {
+    const busca = await this.findByUsuario(email);
+    if (busca == null) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
     }
 
-    return buscaUsuarioPorEmail;
-  }
+    return busca;
+}
 
   async createUsuario(usuario: Usuario): Promise<Usuario> {
-    const buscaUsuarioPorEmail = await this.usuarioRepository.findOne({
-      where: { email: usuario.email.toLowerCase() },
-    });
+        
+        const buscaUsuario =  await this.findByUsuario(usuario.usuario);
 
-    if (buscaUsuarioPorEmail) {
-      throw new HttpException('Usuario ja existe', HttpStatus.BAD_REQUEST);
-    }
-    usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha);
-    return await this.usuarioRepository.save(usuario);
-  }
+        if (buscaUsuario) {
+           throw new HttpException("O Usuario ja existe!", HttpStatus.BAD_REQUEST);
+        }
+        usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
+        return await this.usuarioRepository.save(usuario);
+        
 
-  async updateUsuario(usuario: Usuario): Promise<Usuario> {
-    await this.findById(usuario.id);
-    const buscaUsuario = await this.findByEmail(usuario.email);
-    if (!buscaUsuario || buscaUsuario.id !== usuario.id) {
-      throw new HttpException('Usuario não encontrada', HttpStatus.NOT_FOUND);
     }
-    usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha);
-    return await this.usuarioRepository.save(usuario);
-  }
+   async update(usuario: Usuario): Promise<Usuario> {
+
+         await this.findById(usuario.id);
+
+        const buscaUsuario = await this.findByUsuario(usuario.usuario);
+
+        if (buscaUsuario && buscaUsuario.id !== usuario.id)
+            throw new HttpException('Usuário (e-mail) já Cadastrado!', HttpStatus.BAD_REQUEST);
+
+        usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
+        return await this.usuarioRepository.save(usuario);
+
+    }
+
 
   async deleteUsuario(id: number): Promise<DeleteResult> {
     const buscaUsuarioPorID = await this.findById(id);

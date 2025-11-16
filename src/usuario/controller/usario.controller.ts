@@ -16,14 +16,12 @@ export class UsuarioController {
         return this.usuarioService.findAll();
     }
 
-    
 
-    @Get("email/:email")
-    @HttpCode(HttpStatus.OK)
-    findByEmail(@Param('email') email: string): Promise<Usuario> {
-    return this.usuarioService.findByEmail(email);
-  }
-        
+   @Get("/email/:email")
+   @HttpCode(HttpStatus.OK)
+    findByEmail(@Param('email') email: string):Promise<Usuario> { 
+        return this.usuarioService.findByEmail(email);
+    }
 
     @Get("/:id")
     @HttpCode(HttpStatus.OK)
@@ -40,7 +38,7 @@ export class UsuarioController {
     @Put()
     @HttpCode(HttpStatus.OK)
     updateUsuario(@Body() usuario: Usuario): Promise<Usuario> {
-        return this.usuarioService.updateUsuario(usuario);
+        return this.usuarioService.update(usuario);
     }
     @Delete("/:id")
     @HttpCode(HttpStatus.NO_CONTENT)

@@ -13,7 +13,7 @@ export class Usuario {
   @IsNotEmpty({ message: 'O atributo email é obrigatório!' })
   @Column({ length: 300, unique: true, nullable: false })
   @IsEmail()
-  email: string;
+  usuario: string;
   @Column({ length: 100 })
   @MinLength(8, { message: 'A senha deve ter no minimo 8 caracters' })
   @IsNotEmpty()

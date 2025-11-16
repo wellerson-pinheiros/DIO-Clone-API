@@ -12,6 +12,6 @@ import { Bcrypt } from "../auth/bcrypt/bcrypt";
     imports: [TypeOrmModule.forFeature([Usuario])],
     controllers: [UsuarioController],
     providers: [UsuarioService,Bcrypt],  
-    exports: []
+    exports: [UsuarioService]
 })
 export class UsuarioModule {}
